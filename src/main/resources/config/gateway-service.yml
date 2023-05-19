@@ -1,0 +1,24 @@
+server:
+  port: 5000
+
+
+eureka:
+  client:
+    serviceUrl:
+      default: http://localhost:8761/eureka/
+
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: order-service
+          uri: lb://order-service
+          predicates:
+            - Path=/order/**
+        - id: market-data-service
+          uri: lb://market-data-service
+          predicates:
+            - Path=/market/**
