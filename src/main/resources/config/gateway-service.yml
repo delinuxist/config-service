@@ -10,6 +10,15 @@ eureka:
 spring:
   cloud:
     gateway:
+      globalcors:
+        corsConfigurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:4200"
+            allowedHeaders:
+              - content-type
+            allowedMethods:
+              - GET
+              - POST
       discovery:
         locator:
           enabled: true
@@ -22,3 +31,10 @@ spring:
           uri: lb://market-data-service
           predicates:
             - Path=/market/**
+        - id: user-service
+          uri: lb://user-service
+          predicates:
+            - Path=/user/**
+          filters:
+            - TokenRelay=
+            - RemoveRequestHeader=Cookie
